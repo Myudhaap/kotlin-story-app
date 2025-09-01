@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">StoryAppSubm</string>
+    <string name="icon_application">Icon Application</string>
+    <string name="story_app">Story App</string>
 </resources>
