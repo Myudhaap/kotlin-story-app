@@ -1,10 +1,11 @@
-package dev.mayutama.project.storyappsubm
+package dev.mayutama.project.storyappsubm.ui.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import dev.mayutama.project.storyappsubm.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
