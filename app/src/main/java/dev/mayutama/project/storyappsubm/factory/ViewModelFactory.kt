@@ -3,17 +3,29 @@ package dev.mayutama.project.storyappsubm.factory
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import dev.mayutama.project.storyappsubm.config.DataStoreConfig
 import dev.mayutama.project.storyappsubm.di.Injection
+import dev.mayutama.project.storyappsubm.ui.login.LoginViewModel
+import dev.mayutama.project.storyappsubm.ui.register.RegisterViewModel
 import dev.mayutama.project.storyappsubm.ui.splash.SplashViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
-    private val dataStoreConfig: DataStoreConfig
+    private val application: Application
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
-            return SplashViewModel(dataStoreConfig) as T
+            return SplashViewModel(Injection.provideDataStore(application)) as T
+        }
+
+        if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+            return RegisterViewModel(Injection.provideAuthRepository()) as T
+        }
+
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            return LoginViewModel(
+                Injection.provideAuthRepository(),
+                Injection.provideDataStore(application)
+                ) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
@@ -26,7 +38,7 @@ class ViewModelFactory private constructor(
         fun getInstance(application: Application): ViewModelFactory {
             return instance ?: synchronized(this) {
                 instance ?: ViewModelFactory(
-                    Injection.provideDataStore(application)
+                    application
                 )
             }.also { instance = it }
         }

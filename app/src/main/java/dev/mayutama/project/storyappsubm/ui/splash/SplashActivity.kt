@@ -9,6 +9,8 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.lifecycleScope
 import dev.mayutama.project.storyappsubm.BuildConfig
 import dev.mayutama.project.storyappsubm.databinding.ActivitySplashBinding
@@ -43,14 +45,25 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             delay(3000)
             viewModel.getAuthInfo().collect { auth ->
-                val intent = if (auth.token != null) {
+                if (auth.token != null) {
                     TokenCache.token = auth.token
-                    Intent(this@SplashActivity, MainActivity::class.java)
+                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 } else {
-                    Intent(this@SplashActivity, LoginActivity::class.java)
+                    val optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this@SplashActivity,
+                        Pair(binding.imgApp, "imgIcon"),
+                        Pair(binding.tvTitleApp, "title"),
+                        Pair(binding.tvVersion, "version")
+                    )
+                    val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                    startActivity(intent, optionCompat.toBundle())
+
+                    window.decorView.postDelayed({
+                        finish()
+                    }, 600)
                 }
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
             }
         }
     }

@@ -3,7 +3,13 @@
     <style name="Base.Theme.StoryAppSubm" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="Theme.StoryAppSubm" parent="Base.Theme.StoryAppSubm" />
+
+    <style name="LayoutAnimationStyle">
+        <item name="android:background">#CCFFFFFF</item>
+    </style>
 </resources>

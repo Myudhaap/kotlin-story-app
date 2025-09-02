@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -75,4 +77,7 @@ dependencies {
 
     // Exif
     implementation(libs.androidx.exifinterface)
+
+    // lottie
+    implementation(libs.lottie)
 }

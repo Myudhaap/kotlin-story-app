@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.register.RegisterActivity">
 
     <ImageView
         android:id="@+id/img_app"
@@ -61,18 +61,48 @@
         app:layout_constraintTop_toBottomOf="@id/tv_welcome"
         app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
         android:layout_marginTop="6dp"
-        android:text="@string/let_s_login_to_use_our_feature"
+        android:text="@string/let_s_make_your_account"
         android:textSize="16sp"
         android:transitionName="version"/>
 
     <TextView
-        android:id="@+id/tv_email"
+        android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_welcome_desc"
         app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
         app:layout_constraintEnd_toEndOf="@id/gl_vertical_end"
         android:layout_marginTop="16dp"
+        android:text="@string/name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:labelFor="@id/edt_name"
+        android:alpha="0"
+        tools:alpha="1"/>
+
+    <dev.mayutama.project.storyappsubm.ui.components.EditTextCustom
+        android:id="@+id/edt_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_vertical_end"
+        android:inputType="text"
+        android:background="@drawable/bg_input_outline"
+        android:layout_marginTop="4dp"
+        tools:ignore="VisualLintTextFieldSize"
+        android:alpha="0"
+        tools:alpha="1"
+        app:validate="required"/>
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edt_name"
+        app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
+        app:layout_constraintEnd_toEndOf="@id/gl_vertical_end"
+        android:layout_marginTop="8dp"
         android:text="@string/email"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -82,7 +112,7 @@
 
     <dev.mayutama.project.storyappsubm.ui.components.EditTextCustom
         android:id="@+id/edt_email"
-        android:layout_width="0dp"
+        android:layout_width=                                                                                                                                                                                                                                                      "0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_email"
         app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
@@ -127,7 +157,7 @@
         tools:alpha="1" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/edt_password"
@@ -135,7 +165,7 @@
         app:layout_constraintEnd_toEndOf="@id/gl_vertical_end"
         android:layout_marginTop="16dp"
         style="@style/Widget.AppCompat.Button"
-        android:text="@string/sign_in"
+        android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textStyle="bold"
         android:padding="0dp"
@@ -144,23 +174,18 @@
         android:alpha="0"
         tools:alpha="1"/>
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_login"
-        app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
-        app:layout_constraintEnd_toEndOf="@id/gl_vertical_end"
+        app:layout_constraintTop_toBottomOf="@id/btn_register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/do_you_have_an_account_click_here_to_login"
         android:layout_marginTop="16dp"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:text="@string/register_account"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textColor="@color/design_default_color_primary_dark"
-        android:background="@drawable/bg_border_primary"
-        tools:ignore="VisualLintButtonSize"
         android:alpha="0"
-        tools:alpha="1"/>
+        tools:alpha="1"
+        android:textSize="16sp"/>
 
     <include
         android:id="@+id/loading_layout"
@@ -169,4 +194,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
