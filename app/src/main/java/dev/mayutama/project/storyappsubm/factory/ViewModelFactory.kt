@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.mayutama.project.storyappsubm.di.Injection
 import dev.mayutama.project.storyappsubm.ui.login.LoginViewModel
+import dev.mayutama.project.storyappsubm.ui.main.setting.SettingViewModel
+import dev.mayutama.project.storyappsubm.ui.main.story.StoryViewModel
 import dev.mayutama.project.storyappsubm.ui.register.RegisterViewModel
 import dev.mayutama.project.storyappsubm.ui.splash.SplashViewModel
 
@@ -26,6 +28,20 @@ class ViewModelFactory private constructor(
                 Injection.provideAuthRepository(),
                 Injection.provideDataStore(application)
                 ) as T
+        }
+
+        if (modelClass.isAssignableFrom(StoryViewModel::class.java)) {
+            return StoryViewModel(
+                Injection.provideStoryRepository()
+            ) as T
+        }
+
+        if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
+            return SplashViewModel(Injection.provideDataStore(application)) as T
+        }
+
+        if (modelClass.isAssignableFrom(SettingViewModel::class.java)) {
+            return SettingViewModel(Injection.provideDataStore(application)) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

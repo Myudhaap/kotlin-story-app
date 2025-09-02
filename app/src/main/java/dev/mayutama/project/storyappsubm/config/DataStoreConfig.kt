@@ -32,6 +32,12 @@ class DataStoreConfig private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun clear() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     companion object {
         private val USER_NAME_KEY = stringPreferencesKey("user_name_key")
         private val USER_ID_KEY = stringPreferencesKey("user_id_key")
