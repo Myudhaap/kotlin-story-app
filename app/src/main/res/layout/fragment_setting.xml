@@ -13,6 +13,29 @@
         tools:ignore="UselessParent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/language"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:elevation="22dp"
+            android:layout_margin="12dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/language"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="70dp"

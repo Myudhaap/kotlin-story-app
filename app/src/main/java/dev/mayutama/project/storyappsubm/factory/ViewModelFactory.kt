@@ -9,6 +9,7 @@ import dev.mayutama.project.storyappsubm.ui.main.setting.SettingViewModel
 import dev.mayutama.project.storyappsubm.ui.main.story.StoryViewModel
 import dev.mayutama.project.storyappsubm.ui.register.RegisterViewModel
 import dev.mayutama.project.storyappsubm.ui.splash.SplashViewModel
+import dev.mayutama.project.storyappsubm.ui.storyAdd.StoryAddViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
@@ -42,6 +43,12 @@ class ViewModelFactory private constructor(
 
         if (modelClass.isAssignableFrom(SettingViewModel::class.java)) {
             return SettingViewModel(Injection.provideDataStore(application)) as T
+        }
+
+        if (modelClass.isAssignableFrom(StoryAddViewModel::class.java)) {
+            return StoryAddViewModel(
+                Injection.provideStoryRepository()
+            ) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

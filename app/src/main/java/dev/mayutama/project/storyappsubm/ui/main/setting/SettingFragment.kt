@@ -2,6 +2,7 @@ package dev.mayutama.project.storyappsubm.ui.main.setting
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,15 @@ class SettingFragment : Fragment() {
     }
 
     private fun setupAction() {
+        onSettingLanguage()
         onLogout()
+    }
+
+    fun onSettingLanguage() {
+        binding.language.setOnClickListener {
+            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     fun onLogout() {

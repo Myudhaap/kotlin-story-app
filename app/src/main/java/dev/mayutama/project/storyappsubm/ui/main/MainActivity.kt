@@ -1,15 +1,19 @@
 package dev.mayutama.project.storyappsubm.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dev.mayutama.project.storyappsubm.R
 import dev.mayutama.project.storyappsubm.databinding.ActivityMainBinding
+import dev.mayutama.project.storyappsubm.ui.storyAdd.StoryAddActivity
 import dev.mayutama.project.storyappsubm.util.disableScreenAction
 import dev.mayutama.project.storyappsubm.util.enableScreenAction
 import timber.log.Timber
@@ -17,6 +21,18 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
+    private val launcherActivityForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == StoryAddActivity.STORY_ADD_RESULT) {
+            navController.popBackStack(R.id.nav_story, false)
+            supportFragmentManager.setFragmentResult(
+                "request_key",
+                bundleOf("refresh_story" to true)
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +72,14 @@ class MainActivity : AppCompatActivity() {
 
     fun onAddStory() {
         binding.fabAdd.setOnClickListener {
-            Timber.d("Add story")
+            val optionCompat = ActivityOptionsCompat.makeCustomAnimation(
+                this@MainActivity,
+                R.anim.slide_in_top,
+                R.anim.slide_out_bottom
+            )
+
+            val intent = Intent(this@MainActivity, StoryAddActivity::class.java)
+            launcherActivityForResult.launch(intent, optionCompat)
         }
     }
 

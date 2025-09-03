@@ -56,6 +56,12 @@ class StoryFragment : Fragment() {
             binding.swpRefresh.isRefreshing = false
         }
 
+        requireActivity().supportFragmentManager.setFragmentResultListener("request_key", viewLifecycleOwner) { _, bundle ->
+            val result = bundle.getBoolean("refresh_story", false)
+            if (result){
+                viewModel.getStories()
+            }
+        }
         observeStories()
     }
 
