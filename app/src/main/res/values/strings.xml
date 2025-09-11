@@ -27,4 +27,6 @@
     <string name="upload" translatable="false">Upload</string>
     <string name="story_new">Story New</string>
     <string name="language">Language</string>
+    <string name="list_by_map">List by location</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

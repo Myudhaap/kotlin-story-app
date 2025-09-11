@@ -16,7 +16,6 @@ import dev.mayutama.project.storyappsubm.databinding.ActivityMainBinding
 import dev.mayutama.project.storyappsubm.ui.storyAdd.StoryAddActivity
 import dev.mayutama.project.storyappsubm.util.disableScreenAction
 import dev.mayutama.project.storyappsubm.util.enableScreenAction
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -61,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                     onBackPressedDispatcher.onBackPressed()
                 }
             } else {
+
                 binding.topBar.navigationIcon = null
             }
         }

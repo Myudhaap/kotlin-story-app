@@ -1,16 +1,26 @@
 package dev.mayutama.project.storyappsubm.ui.main.story
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import dev.mayutama.project.storyappsubm.R
 import dev.mayutama.project.storyappsubm.data.remote.dto.res.ErrorRes
 import dev.mayutama.project.storyappsubm.databinding.FragmentStoryBinding
 import dev.mayutama.project.storyappsubm.factory.ViewModelFactory
 import dev.mayutama.project.storyappsubm.ui.main.MainActivity
+import dev.mayutama.project.storyappsubm.ui.map.MapsActivity
 import dev.mayutama.project.storyappsubm.util.ResultState
 import dev.mayutama.project.storyappsubm.util.showToast
 
@@ -39,6 +49,7 @@ class StoryFragment : Fragment() {
 
     private fun setupView() {
         view = requireActivity() as MainActivity
+        val menuHost: MenuHost = requireActivity()
 
         adapter = StoryAdapter(view)
         val layoutManager = LinearLayoutManager(
@@ -63,6 +74,25 @@ class StoryFragment : Fragment() {
             }
         }
         observeStories()
+
+        menuHost.addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(
+                menu: Menu,
+                menuInflater: MenuInflater
+            ) {
+                menuInflater.inflate(R.menu.story_option, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.list_by_location -> {
+                        openMapActivity()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     fun observeStories() {
@@ -83,5 +113,16 @@ class StoryFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun openMapActivity() {
+        val optionCompat = ActivityOptionsCompat.makeCustomAnimation(
+            requireContext(),
+            R.anim.slide_in_top,
+            R.anim.slide_out_bottom
+        )
+
+        val intent = Intent(requireContext(), MapsActivity::class.java)
+        startActivity(intent, optionCompat.toBundle())
     }
 }

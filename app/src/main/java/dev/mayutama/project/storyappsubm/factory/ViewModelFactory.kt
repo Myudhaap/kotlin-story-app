@@ -7,6 +7,7 @@ import dev.mayutama.project.storyappsubm.di.Injection
 import dev.mayutama.project.storyappsubm.ui.login.LoginViewModel
 import dev.mayutama.project.storyappsubm.ui.main.setting.SettingViewModel
 import dev.mayutama.project.storyappsubm.ui.main.story.StoryViewModel
+import dev.mayutama.project.storyappsubm.ui.map.MapViewModel
 import dev.mayutama.project.storyappsubm.ui.register.RegisterViewModel
 import dev.mayutama.project.storyappsubm.ui.splash.SplashViewModel
 import dev.mayutama.project.storyappsubm.ui.storyAdd.StoryAddViewModel
@@ -47,6 +48,12 @@ class ViewModelFactory private constructor(
 
         if (modelClass.isAssignableFrom(StoryAddViewModel::class.java)) {
             return StoryAddViewModel(
+                Injection.provideStoryRepository()
+            ) as T
+        }
+
+        if (modelClass.isAssignableFrom(MapViewModel::class.java)) {
+            return MapViewModel(
                 Injection.provideStoryRepository()
             ) as T
         }

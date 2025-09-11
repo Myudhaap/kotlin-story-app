@@ -23,4 +23,5 @@
     <string name="description">Deskripsi</string>
     <string name="story_new">Cerita Baru</string>
     <string name="language">Bahasa</string>
+    <string name="list_by_map">Daftar berdasarkan lokasi</string>
 </resources>
