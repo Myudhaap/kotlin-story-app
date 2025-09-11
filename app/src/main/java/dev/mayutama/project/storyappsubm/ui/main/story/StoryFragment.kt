@@ -16,13 +16,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.mayutama.project.storyappsubm.R
-import dev.mayutama.project.storyappsubm.data.remote.dto.res.ErrorRes
 import dev.mayutama.project.storyappsubm.databinding.FragmentStoryBinding
 import dev.mayutama.project.storyappsubm.factory.ViewModelFactory
 import dev.mayutama.project.storyappsubm.ui.main.MainActivity
 import dev.mayutama.project.storyappsubm.ui.map.MapsActivity
-import dev.mayutama.project.storyappsubm.util.ResultState
-import dev.mayutama.project.storyappsubm.util.showToast
 
 class StoryFragment : Fragment() {
     private lateinit var binding: FragmentStoryBinding
@@ -32,6 +29,7 @@ class StoryFragment : Fragment() {
 
     private lateinit var view: MainActivity
     private lateinit var adapter: StoryAdapter
+    private var shouldScrollTop = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,19 +56,24 @@ class StoryFragment : Fragment() {
             false
         )
         binding.rvStory.let {
-            it.adapter = adapter
+            it.adapter = adapter.withLoadStateFooter(
+                footer = StoryLoadingStateAdapter {
+                    adapter.retry()
+                }
+            )
             it.layoutManager = layoutManager
         }
 
         binding.swpRefresh.setOnRefreshListener {
-            viewModel.getStories()
+            adapter.refresh()
             binding.swpRefresh.isRefreshing = false
         }
 
         requireActivity().supportFragmentManager.setFragmentResultListener("request_key", viewLifecycleOwner) { _, bundle ->
             val result = bundle.getBoolean("refresh_story", false)
             if (result){
-                viewModel.getStories()
+                adapter.refresh()
+                shouldScrollTop = true
             }
         }
         observeStories()
@@ -93,25 +96,19 @@ class StoryFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        adapter.addOnPagesUpdatedListener {
+            if (shouldScrollTop && adapter.itemCount > 0) {
+                (binding.rvStory.layoutManager as LinearLayoutManager)
+                    .scrollToPositionWithOffset(0, 0)
+                shouldScrollTop = false
+            }
+        }
     }
 
     fun observeStories() {
-        viewModel.stories.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is ResultState.Loading -> {
-                        view.showLoading()
-                    }
-                    is ResultState.Success -> {
-                        adapter.submitList(result.data.listStory)
-                        view.hideLoading()
-                    }
-                    is ResultState.Error<*> -> {
-                        showToast(requireContext(), (result.error as ErrorRes).message)
-                        view.hideLoading()
-                    }
-                }
-            }
+        viewModel.getStories().observe(viewLifecycleOwner) { result ->
+            adapter.submitData(lifecycle, result)
         }
     }
 

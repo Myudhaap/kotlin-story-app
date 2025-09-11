@@ -1,7 +1,16 @@
 package dev.mayutama.project.storyappsubm.data.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.google.gson.Gson
+import dev.mayutama.project.storyappsubm.data.local.database.AppDatabase
+import dev.mayutama.project.storyappsubm.data.local.entity.StoryEntity
+import dev.mayutama.project.storyappsubm.data.mediator.StoryRemoteMediator
 import dev.mayutama.project.storyappsubm.data.remote.dto.res.ErrorRes
 import dev.mayutama.project.storyappsubm.data.remote.retrofit.ApiConfig
 import dev.mayutama.project.storyappsubm.util.ResultState
@@ -12,7 +21,9 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
 
-class StoryRepository private constructor() {
+class StoryRepository constructor(
+    private val database: AppDatabase
+) {
 
     fun getStories(page: Int? = null, size: Int? = null, location: Int = 0) = liveData {
         emit(ResultState.Loading)
@@ -26,6 +37,19 @@ class StoryRepository private constructor() {
             val errorResponse = Gson().fromJson(errorBody, ErrorRes::class.java)
             emit(ResultState.Error(errorResponse))
         }
+    }
+
+    fun getStoriesPaging(location: Int = 0): LiveData<PagingData<StoryEntity>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(database, location),
+            pagingSourceFactory = {
+                database.storyDao().getAllQuote()
+            }
+        ).liveData
     }
 
     fun addStory(photo: File, description: String, lat: Float? = null, lon: Float? = null) = liveData {
@@ -56,9 +80,9 @@ class StoryRepository private constructor() {
         @Volatile
         private var instance: StoryRepository? = null
 
-        fun getInstance(): StoryRepository {
+        fun getInstance(database: AppDatabase): StoryRepository {
             return instance ?: synchronized(this) {
-                instance ?: StoryRepository()
+                instance ?: StoryRepository(database)
             }.also { instance = it }
         }
     }

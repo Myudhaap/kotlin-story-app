@@ -34,7 +34,7 @@ class ViewModelFactory private constructor(
 
         if (modelClass.isAssignableFrom(StoryViewModel::class.java)) {
             return StoryViewModel(
-                Injection.provideStoryRepository()
+                Injection.provideStoryRepository(application)
             ) as T
         }
 
@@ -48,13 +48,13 @@ class ViewModelFactory private constructor(
 
         if (modelClass.isAssignableFrom(StoryAddViewModel::class.java)) {
             return StoryAddViewModel(
-                Injection.provideStoryRepository()
+                Injection.provideStoryRepository(application)
             ) as T
         }
 
         if (modelClass.isAssignableFrom(MapViewModel::class.java)) {
             return MapViewModel(
-                Injection.provideStoryRepository()
+                Injection.provideStoryRepository(application)
             ) as T
         }
 

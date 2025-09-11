@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import dev.mayutama.project.storyappsubm.data.remote.dto.res.StoryRes
+import dev.mayutama.project.storyappsubm.data.local.entity.StoryEntity
 import dev.mayutama.project.storyappsubm.databinding.ActivityStoryDetailBinding
 
 @Suppress("DEPRECATION")
@@ -38,7 +38,7 @@ class StoryDetailActivity : AppCompatActivity() {
         }
 
         val story = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            intent.getParcelableExtra(STORY_EXTRA, StoryRes.Story::class.java)
+            intent.getParcelableExtra(STORY_EXTRA, StoryEntity::class.java)
         else
             intent.getParcelableExtra(STORY_EXTRA)
 

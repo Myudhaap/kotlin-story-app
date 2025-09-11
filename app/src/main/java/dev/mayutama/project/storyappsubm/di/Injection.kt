@@ -3,6 +3,7 @@ package dev.mayutama.project.storyappsubm.di
 import android.app.Application
 import dev.mayutama.project.storyappsubm.config.DataStoreConfig
 import dev.mayutama.project.storyappsubm.config.dataStore
+import dev.mayutama.project.storyappsubm.data.local.database.AppDatabase
 import dev.mayutama.project.storyappsubm.data.repository.AuthRepository
 import dev.mayutama.project.storyappsubm.data.repository.StoryRepository
 
@@ -15,7 +16,7 @@ object Injection {
         return AuthRepository.getInstance()
     }
 
-    fun provideStoryRepository(): StoryRepository {
-        return StoryRepository.getInstance()
+    fun provideStoryRepository(application: Application): StoryRepository {
+        return StoryRepository.getInstance(AppDatabase.getInstance(application))
     }
 }

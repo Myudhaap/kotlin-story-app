@@ -8,19 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import dev.mayutama.project.storyappsubm.data.remote.dto.res.StoryRes
+import dev.mayutama.project.storyappsubm.data.local.entity.StoryEntity
 import dev.mayutama.project.storyappsubm.databinding.ItemStoryBinding
 import dev.mayutama.project.storyappsubm.ui.main.MainActivity
 import dev.mayutama.project.storyappsubm.ui.storyDetail.StoryDetailActivity
 
-class StoryAdapter(private val activity: MainActivity): ListAdapter<StoryRes.Story, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class StoryAdapter(private val activity: MainActivity):
+    PagingDataAdapter<StoryEntity, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     inner class StoryViewHolder(private val binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bindingStory(item: StoryRes.Story) {
+        fun bindingStory(item: StoryEntity) {
             binding.tvName.text = item.name
             binding.tvDescription.text = item.description
             Glide.with(binding.root.context)
@@ -66,24 +67,24 @@ class StoryAdapter(private val activity: MainActivity): ListAdapter<StoryRes.Sto
         position: Int
     ) {
         val item = getItem(position)
-        if (holder is StoryViewHolder) {
+        if (holder is StoryViewHolder && item != null) {
             holder.bindingStory(item)
             holder.animateItem()
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object: DiffUtil.ItemCallback<StoryRes.Story>(){
+        val DIFF_CALLBACK = object: DiffUtil.ItemCallback<StoryEntity>(){
             override fun areItemsTheSame(
-                oldItem: StoryRes.Story,
-                newItem: StoryRes.Story
+                oldItem: StoryEntity,
+                newItem: StoryEntity
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: StoryRes.Story,
-                newItem: StoryRes.Story
+                oldItem: StoryEntity,
+                newItem: StoryEntity
             ): Boolean {
                 return oldItem == newItem
             }
