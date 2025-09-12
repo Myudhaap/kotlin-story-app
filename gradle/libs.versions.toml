@@ -21,6 +21,7 @@ constraintlayout = "2.2.1"
 mockitoCore = "5.19.0"
 mockitoInline = "5.2.0"
 pagingRuntime = "3.3.6"
+playServicesLocation = "21.3.0"
 retrofit = "3.0.0"
 roomRuntime = "2.8.0"
 roomCompiler = "2.8.0"
@@ -61,6 +62,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }

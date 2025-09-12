@@ -103,6 +103,10 @@ dependencies {
     implementation (libs.androidx.paging.runtime)
     implementation(libs.androidx.room.paging)
 
+    // location
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+
     // Test
     androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
