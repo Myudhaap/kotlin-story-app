@@ -44,6 +44,9 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    testOptions {
+        animationsDisabled = false
+    }
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
@@ -108,11 +111,23 @@ dependencies {
     implementation(libs.play.services.location)
 
     // Test
+    implementation(libs.androidx.espresso.idling.resource)
+
+    debugImplementation(libs.androidx.fragment.testing)
+
     androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.espresso.contrib)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.navigation.testing)
+
 
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
+
+    // mock webserver
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.okhttp.tls)
 }

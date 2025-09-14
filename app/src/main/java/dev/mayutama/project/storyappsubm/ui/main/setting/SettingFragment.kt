@@ -1,5 +1,6 @@
 package dev.mayutama.project.storyappsubm.ui.main.setting
 
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -17,7 +18,7 @@ import dev.mayutama.project.storyappsubm.ui.login.LoginActivity
 class SettingFragment : Fragment() {
     private lateinit var binding: FragmentSettingBinding
     private val viewModel by viewModels<SettingViewModel> {
-        ViewModelFactory.getInstance(requireActivity().application)
+        ViewModelFactory.getInstance(requireContext().applicationContext as Application)
     }
 
     override fun onCreateView(

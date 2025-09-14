@@ -7,6 +7,7 @@ import dev.mayutama.project.storyappsubm.data.remote.dto.req.RegisterReq
 import dev.mayutama.project.storyappsubm.data.remote.dto.res.ErrorRes
 import dev.mayutama.project.storyappsubm.data.remote.retrofit.ApiConfig
 import dev.mayutama.project.storyappsubm.util.ResultState
+import dev.mayutama.project.storyappsubm.util.wrapEspressoIdlingResource
 import retrofit2.HttpException
 
 class AuthRepository private constructor() {
@@ -26,13 +27,15 @@ class AuthRepository private constructor() {
     fun login(loginReq: LoginReq) = liveData {
         emit(ResultState.Loading)
 
-        try {
-            val response = ApiConfig.getApiStoryService().login(loginReq)
-            emit(ResultState.Success(response))
-        }catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, ErrorRes::class.java)
-            emit(ResultState.Error(errorResponse))
+        wrapEspressoIdlingResource {
+            try {
+                val response = ApiConfig.getApiStoryService().login(loginReq)
+                emit(ResultState.Success(response))
+            }catch (e: HttpException) {
+                val errorBody = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, ErrorRes::class.java)
+                emit(ResultState.Error(errorResponse))
+            }
         }
     }
 

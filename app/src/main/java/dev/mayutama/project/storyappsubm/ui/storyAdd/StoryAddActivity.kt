@@ -208,12 +208,14 @@ class StoryAddActivity : AppCompatActivity() {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     this.location = location
+                    binding.swLocation.isChecked = true
                 } else {
                     Toast.makeText(
                         this@StoryAddActivity,
                         "Location is not found. Try Again",
                         Toast.LENGTH_SHORT
                     ).show()
+                    binding.swLocation.isChecked = false
                 }
             }
         } else {
@@ -223,6 +225,7 @@ class StoryAddActivity : AppCompatActivity() {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 )
             )
+            binding.swLocation.isChecked = false
         }
     }
 
